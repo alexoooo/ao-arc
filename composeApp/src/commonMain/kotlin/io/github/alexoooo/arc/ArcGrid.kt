@@ -16,7 +16,7 @@ data class ArcGrid(
             }
 
             val insideOuterArray = withoutWhitespace.substring(1, withoutWhitespace.length - 1)
-            require(insideOuterArray.matches(Regex("""\[\d+(,\d+)+](,\[\d+(,\d+)+])"""))) {
+            require(insideOuterArray.matches(Regex("""\[\d+(,\d+)+](,\[\d+(,\d+)+])+"""))) {
                 "Arrays of int expected inside outer array: $insideOuterArray"
             }
 

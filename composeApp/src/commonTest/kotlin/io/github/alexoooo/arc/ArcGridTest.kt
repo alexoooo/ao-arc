@@ -37,4 +37,22 @@ class ArcGridTest {
             grid
         )
     }
+
+
+    @Test
+    fun threeByThree() {
+        val json = "[[0,1,2],[1,0,2],[2,0,1]]"
+        val grid = ArcGrid.ofJson(json)
+
+        assertEquals(
+            ArcGrid(
+                ArcDimensions(3, 3),
+                listOf(
+                    listOf(ArcColor.ofIndex(0), ArcColor.ofIndex(1), ArcColor.ofIndex(2)),
+                    listOf(ArcColor.ofIndex(1), ArcColor.ofIndex(0), ArcColor.ofIndex(2)),
+                    listOf(ArcColor.ofIndex(2), ArcColor.ofIndex(0), ArcColor.ofIndex(1)))
+            ),
+            grid
+        )
+    }
 }

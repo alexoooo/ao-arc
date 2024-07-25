@@ -1,19 +1,16 @@
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 
-import ao_arc.composeapp.generated.resources.Res
-import ao_arc.composeapp.generated.resources.compose_multiplatform
-import io.github.alexoooo.arc.ArcColor
 import io.github.alexoooo.arc.ArcGrid
 
 @Composable
@@ -25,7 +22,12 @@ fun App() {
         var grid: ArcGrid? by remember { mutableStateOf(ArcGrid.ofJson(text)) }
         var gridError: String? by remember { mutableStateOf(null) }
 
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             TextField(
                 value = text,
                 onValueChange = {
@@ -42,23 +44,29 @@ fun App() {
                 }
             )
 
-            Text("Grid: $grid")
-            Text("Error: $gridError")
+            if (gridError != null) {
+                Text("Error: $gridError", color = Color.Red)
+            }
+            else {
+                check(grid != null)
 
-//            Button(onClick = { showContent = !showContent }) {
-//                Text("Foo")
-//            }
-//            AnimatedVisibility(showContent) {
-////                val greeting = remember { Greeting().greet() }
-//                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-//                    for (i in 0 ..< 10) {
-//                        Text(ArcColor.ofIndex(i).name)
-//                    }
-//
-////                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-////                    Text("Compose: $greeting")
-//                }
-//            }
+                val dimensions = grid!!.dimensions
+                Text("Dimensions: $dimensions")
+
+                val cells = grid!!.cells
+                for (row in cells) {
+                    Row {
+                        for (cell in row) {
+                            Box(modifier = Modifier
+                                .size(Dp(25f))
+                                .background(Color(cell.argbColorCode))
+                            ) {
+                                Text("${cell.index}", color = Color.White)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
