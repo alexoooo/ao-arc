@@ -1,4 +1,4 @@
-package io.github.alexoooo.arc
+package io.github.alexoooo.arc.model
 
 
 enum class ArcColor(
@@ -20,6 +20,8 @@ enum class ArcColor(
 
     //-----------------------------------------------------------------------------------------------------------------
     companion object {
+        val count = ArcColor.entries.size
+
         fun ofIndex(index: Int): ArcColor {
             return entries[index]
         }

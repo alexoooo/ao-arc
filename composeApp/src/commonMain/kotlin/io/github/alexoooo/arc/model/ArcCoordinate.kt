@@ -1,4 +1,4 @@
-package io.github.alexoooo.arc
+package io.github.alexoooo.arc.model
 
 
 data class ArcCoordinate(
@@ -6,7 +6,7 @@ data class ArcCoordinate(
 ) {
     //-----------------------------------------------------------------------------------------------------------------
     init {
-        require(index in 0..< ArcDimensions.max) {
+        require(index in 0..<ArcDimensions.max) {
             "Must be in range [0 ..< ${ArcDimensions.max}]: $index"
         }
     }

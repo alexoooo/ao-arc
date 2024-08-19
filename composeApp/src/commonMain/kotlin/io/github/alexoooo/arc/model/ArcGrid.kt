@@ -1,4 +1,4 @@
-package io.github.alexoooo.arc
+package io.github.alexoooo.arc.model
 
 
 data class ArcGrid(
@@ -16,7 +16,7 @@ data class ArcGrid(
             }
 
             val insideOuterArray = withoutWhitespace.substring(1, withoutWhitespace.length - 1)
-            require(insideOuterArray.matches(Regex("""\[\d+(,\d+)+](,\[\d+(,\d+)+])+"""))) {
+            require(insideOuterArray.matches(Regex("""\[\d+(,\d+)+](,\[\d+(,\d+)+])*"""))) {
                 "Arrays of int expected inside outer array: $insideOuterArray"
             }
 
@@ -69,5 +69,14 @@ data class ArcGrid(
             "Column index '$rowIndex' must be in: [0 .. ${dimensions.columns - 1}]"
         }
         return cells[rowIndex.index][columnIndex.index]
+    }
+
+
+    fun toJson(): String {
+        return cells.joinToString(", ", "[", "]") { row ->
+            row.joinToString(", ", "[", "]") {
+                color -> color.index.toString()
+            }
+        }
     }
 }

@@ -1,10 +1,29 @@
 package io.github.alexoooo.arc
 
+import io.github.alexoooo.arc.model.ArcColor
+import io.github.alexoooo.arc.model.ArcDimensions
+import io.github.alexoooo.arc.model.ArcGrid
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
 class ArcGridTest {
+    @Test
+    fun twoByOne() {
+        val json = "[[0,1]]"
+        val grid = ArcGrid.ofJson(json)
+
+        assertEquals(
+            ArcGrid(
+                ArcDimensions(1, 2),
+                listOf(
+                    listOf(ArcColor.ofIndex(0), ArcColor.ofIndex(1)))
+            ),
+            grid
+        )
+    }
+
+
     @Test
     fun twoByTwo() {
         val json = "[[0,1],[1,0]]"

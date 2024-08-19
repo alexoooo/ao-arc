@@ -1,4 +1,4 @@
-package io.github.alexoooo.arc
+package io.github.alexoooo.arc.model
 
 
 data class ArcDimensions(
