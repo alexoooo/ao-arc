@@ -1,8 +1,5 @@
-package io.github.alexoooo.arc
+package io.github.alexoooo.arc.model
 
-import io.github.alexoooo.arc.model.ArcColor
-import io.github.alexoooo.arc.model.ArcDimensions
-import io.github.alexoooo.arc.model.ArcGrid
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

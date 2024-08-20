@@ -11,14 +11,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import io.github.alexoooo.arc.model.ArcExample
 import io.github.alexoooo.arc.model.ArcGrid
+import io.github.alexoooo.arc.model.ArcTask
+
+
+private const val sampleTaskJson = """{
+  "train": [
+    {"input": [[1, 0], [0, 0]], "output": [[1, 1], [1, 1]]},
+    {"input": [[0, 0], [4, 0]], "output": [[4, 4], [4, 4]]},
+    {"input": [[0, 0], [6, 0]], "output": [[6, 6], [6, 6]]}
+  ],
+  "test": [
+    {"input": [[0, 0], [0, 8]], "output": [[8, 8], [8, 8]]}
+  ]
+}"""
 
 
 @Composable
 fun SolveScreen() {
-    var text by remember { mutableStateOf("[[0,1],[1,0]]") }
-    var grid: ArcGrid? by remember { mutableStateOf(ArcGrid.ofJson(text)) }
-    var gridError: String? by remember { mutableStateOf(null) }
+    var text by remember { mutableStateOf(sampleTaskJson) }
+    var task: ArcTask? by remember { mutableStateOf(ArcTask.ofJson(text)) }
+    var error: String? by remember { mutableStateOf(null) }
 
     Column(
         Modifier
@@ -32,36 +46,67 @@ fun SolveScreen() {
                 text = it
 
                 try {
-                    grid = ArcGrid.ofJson(it)
-                    gridError = null
+                    task = ArcTask.ofJson(it)
+                    error = null
                 }
                 catch (e: Exception) {
-                    grid = null
-                    gridError = e::class.simpleName + ": " + e.message
+                    task = null
+                    error = e::class.simpleName + ": " + e.message
                 }
             }
         )
 
-        if (gridError != null) {
-            Text("Error: $gridError", color = Color.Red)
+        if (error != null) {
+            Text("Error: $error", color = Color.Red)
         }
         else {
-            check(grid != null)
+            val currentTask = task
+            check(currentTask != null)
+            ArcTaskView(currentTask)
+        }
+    }
+}
 
-            val dimensions = grid!!.dimensions
-            Text("Dimensions: $dimensions")
 
-            val cells = grid!!.cells
-            for (row in cells) {
-                Row {
-                    for (cell in row) {
-                        Box(modifier = Modifier
-                            .size(Dp(25f))
-                            .background(Color(cell.argbColorCode))
-                        ) {
-                            Text("${cell.index}", color = Color.White)
-                        }
-                    }
+@Composable
+fun ArcTaskView(arcTask: ArcTask) {
+    Text("Training examples: ${arcTask.train.size}")
+    for (trainExample in arcTask.train) {
+        ArcExampleView(trainExample)
+    }
+
+    Text("Test examples: ${arcTask.test.size}")
+    for (testExample in arcTask.test) {
+        ArcExampleView(testExample)
+    }
+}
+
+
+@Composable
+fun ArcExampleView(arcExample: ArcExample) {
+    Text("-------------------------------------------------------")
+    Text("Input:")
+    ArcGridView(arcExample.input)
+
+    Text("Output:")
+    ArcGridView(arcExample.output)
+}
+
+
+@Composable
+fun ArcGridView(arcGrid: ArcGrid) {
+    val dimensions = arcGrid.dimensions
+    Text("Dimensions: $dimensions")
+
+    val cells = arcGrid.cells
+    for (row in cells) {
+        Row {
+            for (cell in row) {
+                Box(modifier = Modifier
+                    .size(Dp(25f))
+                    .background(Color(cell.argbColorCode))
+                ) {
+                    Text("${cell.index}", color = Color.White)
                 }
             }
         }
