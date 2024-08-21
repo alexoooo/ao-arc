@@ -19,7 +19,7 @@ fun App() {
 fun ScreenTabs() {
     var tabIndex by remember { mutableStateOf(0) }
 
-    val tabs = listOf("Solve", "Generate")
+    val tabs = listOf("View", "Generate")
 
     Column(modifier = Modifier.fillMaxWidth()) {
         TabRow(selectedTabIndex = tabIndex) {
