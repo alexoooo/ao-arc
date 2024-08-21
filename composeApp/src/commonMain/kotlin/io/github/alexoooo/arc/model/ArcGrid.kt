@@ -43,6 +43,17 @@ data class ArcGrid(
 
             return ArcGrid(dimensions, cells)
         }
+
+
+        fun ofFilled(dimensions: ArcDimensions, color: ArcColor = ArcColor.Black): ArcGrid {
+            val cells =
+                (0 ..< dimensions.rows).map {
+                    (0 ..< dimensions.columns).map {
+                        color
+                    }
+                }
+            return ArcGrid(dimensions, cells)
+        }
     }
 
 

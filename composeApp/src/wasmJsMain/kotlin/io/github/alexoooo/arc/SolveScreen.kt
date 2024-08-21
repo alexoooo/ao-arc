@@ -70,13 +70,17 @@ fun SolveScreen() {
 
 @Composable
 fun ArcTaskView(arcTask: ArcTask) {
+    Text("=======================================================")
     Text("Training examples: ${arcTask.train.size}")
     for (trainExample in arcTask.train) {
+        Text("-------------------------")
         ArcExampleView(trainExample)
     }
 
+    Text("=======================================================")
     Text("Test examples: ${arcTask.test.size}")
     for (testExample in arcTask.test) {
+        Text("-------------------------")
         ArcExampleView(testExample)
     }
 }
@@ -84,19 +88,32 @@ fun ArcTaskView(arcTask: ArcTask) {
 
 @Composable
 fun ArcExampleView(arcExample: ArcExample) {
-    Text("-------------------------------------------------------")
-    Text("Input:")
-    ArcGridView(arcExample.input)
+    Column(
+        Modifier
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row {
+            Column {
+                Text("Input:")
+                ArcGridView(arcExample.input)
+            }
 
-    Text("Output:")
-    ArcGridView(arcExample.output)
+            Text(" ==> ")
+
+            Column {
+                Text("Output:")
+                ArcGridView(arcExample.output)
+            }
+        }
+    }
 }
 
 
 @Composable
 fun ArcGridView(arcGrid: ArcGrid) {
     val dimensions = arcGrid.dimensions
-    Text("Dimensions: $dimensions")
+    Text("${dimensions.rows} x ${dimensions.columns}")
 
     val cells = arcGrid.cells
     for (row in cells) {

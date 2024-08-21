@@ -1,12 +1,15 @@
 package io.github.alexoooo.arc.model
 
+import kotlin.jvm.JvmInline
 
-data class ArcCoordinate(
+
+@JvmInline
+value class ArcCoordinate(
     val index: Int
 ) {
     //-----------------------------------------------------------------------------------------------------------------
     init {
-        require(index in 0..<ArcDimensions.max) {
+        require(index in 0..< ArcDimensions.max) {
             "Must be in range [0 ..< ${ArcDimensions.max}]: $index"
         }
     }
