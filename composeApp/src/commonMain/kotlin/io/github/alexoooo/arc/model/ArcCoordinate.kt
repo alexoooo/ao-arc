@@ -8,8 +8,16 @@ value class ArcCoordinate(
     val index: Int
 ) {
     //-----------------------------------------------------------------------------------------------------------------
+    companion object {
+        fun inRange(index: Int): Boolean {
+            return index in 0..< ArcDimensions.max
+        }
+    }
+
+
+    //-----------------------------------------------------------------------------------------------------------------
     init {
-        require(index in 0..< ArcDimensions.max) {
+        require(inRange(index)) {
             "Must be in range [0 ..< ${ArcDimensions.max}]: $index"
         }
     }

@@ -1,9 +1,6 @@
 package io.github.alexoooo.arc.generate
 
-import io.github.alexoooo.arc.model.ArcColor
-import io.github.alexoooo.arc.model.ArcCoordinate
-import io.github.alexoooo.arc.model.ArcDimensions
-import io.github.alexoooo.arc.model.ArcGrid
+import io.github.alexoooo.arc.model.*
 
 
 class ArcGridBuilder {
@@ -17,6 +14,10 @@ class ArcGridBuilder {
 
 
     //-----------------------------------------------------------------------------------------------------------------
+    fun set(cell: ArcCell, color: ArcColor?) {
+        set(cell.row, cell.column, color)
+    }
+
     fun set(rowIndex: ArcCoordinate, columnIndex: ArcCoordinate, color: ArcColor?) {
         cells[rowIndex.index][columnIndex.index] = color
     }
@@ -41,10 +42,28 @@ class ArcGridBuilder {
     }
 
 
+    fun shiftLeft(columns: Int) {
+        for (i in 0 ..< columns) {
+            for (row in cells) {
+                row.removeFirst()
+                row.add(null)
+            }
+        }
+    }
+
+
     fun shiftDown(rows: Int) {
         for (i in 0 ..< rows) {
             cells.add(0, MutableList(ArcDimensions.max) { null })
             cells.removeLast()
+        }
+    }
+
+
+    fun shiftUp(rows: Int) {
+        for (i in 0 ..< rows) {
+            cells.removeFirst()
+            cells.add(0, MutableList(ArcDimensions.max) { null })
         }
     }
 
